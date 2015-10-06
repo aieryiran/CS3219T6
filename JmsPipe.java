@@ -44,7 +44,12 @@ public class JmsPipe implements IPipe {
 	}
 	
 	public void write(Order s) {
-		
+        try {
+			send(s.toString());
+		} catch (JMSException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	} 
 	
 	private void send(String message) throws JMSException {
@@ -53,28 +58,7 @@ public class JmsPipe implements IPipe {
     }
 	
     public Order read() {
-    	BufferedReader msgStream = new BufferedReader(new InputStreamReader(System.in));
-        String line = "";
-        boolean quitNow = false;
-        System.out.print("Enter message (\"quit\" to quit): \n");
-        try {
-			line = msgStream.readLine();
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-        if (line != null && line.trim().length() != 0) {
-            try {
-				send(line);
-			} catch (JMSException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-            System.out.println("JMS Message Sent: " + line + "\n");
-            return Order.fromString(line);
-        } else {
-        	return null;
-        }   
+    	return null;
     }
     
     public void close() {
